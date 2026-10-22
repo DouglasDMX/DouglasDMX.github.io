@@ -1,0 +1,662 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Portfólio de Carlos Douglas — desenvolvedor front-end (React Native / TypeScript) vindo de QA, com foco em arquitetura modular, testes e engenharia assistida por IA.">
+<title>Carlos Douglas — Portfólio</title>
+<style>
+  :root {
+    --bg: #f6f4f0;
+    --surface: #ffffff;
+    --surface-2: #efece5;
+    --ink: #1d2129;
+    --muted: #5c6472;
+    --border: #e3ddd2;
+    --accent: #1f6f78;
+    --accent-soft: #dcecec;
+    --good: #2f7d4f;
+    --good-soft: #dcefe2;
+    --warn: #b4552c;
+    --warn-soft: #f4e3da;
+    --shadow: 0 1px 2px rgba(30,30,20,0.04), 0 10px 28px rgba(30,30,20,0.07);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #12151a; --surface: #1a1e25; --surface-2: #15181e; --ink: #e9e7e1; --muted: #98a0ab;
+      --border: #2b313b; --accent: #6cc4cc; --accent-soft: rgba(108,196,204,0.14);
+      --good: #6fd18f; --good-soft: rgba(111,209,143,0.14); --warn: #e08a5c; --warn-soft: rgba(224,138,92,0.14);
+      --shadow: 0 1px 2px rgba(0,0,0,0.35), 0 10px 28px rgba(0,0,0,0.4);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #12151a; --surface: #1a1e25; --surface-2: #15181e; --ink: #e9e7e1; --muted: #98a0ab;
+    --border: #2b313b; --accent: #6cc4cc; --accent-soft: rgba(108,196,204,0.14);
+    --good: #6fd18f; --good-soft: rgba(111,209,143,0.14); --warn: #e08a5c; --warn-soft: rgba(224,138,92,0.14);
+    --shadow: 0 1px 2px rgba(0,0,0,0.35), 0 10px 28px rgba(0,0,0,0.4);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, "Segoe UI", "Inter", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .mono { font-family: ui-monospace, "SF Mono", "Cascadia Code", "JetBrains Mono", Consolas, monospace; }
+  a { color: inherit; }
+  .wrap { max-width: 68rem; margin: 0 auto; padding: 0 1.5rem; }
+  .skip { position: absolute; left: -999px; top: 0; background: var(--accent); color: var(--bg); padding: .5rem .8rem; z-index: 50; border-radius: 0 0 6px 0; }
+  .skip:focus { left: 0; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  /* ---------- Nav ---------- */
+  nav.top {
+    position: sticky; top: 0; z-index: 20;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+  }
+  nav.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-block: 0.85rem; }
+  .mark { font-weight: 700; font-size: 0.95rem; letter-spacing: -0.01em; white-space: nowrap; }
+  .mark .dot { color: var(--accent); }
+  .nav-right { display: flex; align-items: center; gap: 1.2rem; min-width: 0; }
+  .navlinks { display: flex; gap: 1.3rem; font-size: 0.82rem; overflow-x: auto; scrollbar-width: none; }
+  .navlinks::-webkit-scrollbar { display: none; }
+  .navlinks a { text-decoration: none; color: var(--muted); border-bottom: 1px solid transparent; padding-bottom: 2px; white-space: nowrap; transition: color .15s, border-color .15s; }
+  .navlinks a:hover { color: var(--accent); border-color: var(--accent); }
+  .theme-btn { background: none; border: 1px solid var(--border); color: var(--muted); border-radius: 6px; width: 2rem; height: 2rem; cursor: pointer; flex-shrink: 0; display: grid; place-items: center; }
+  .theme-btn:hover { color: var(--accent); border-color: var(--accent); }
+  .theme-btn svg { width: 15px; height: 15px; }
+
+  /* ---------- Hero ---------- */
+  header.hero { padding: 4.5rem 0 3rem; }
+  .eyebrow {
+    font-family: ui-monospace, "SF Mono", "Cascadia Code", Consolas, monospace;
+    font-size: 0.74rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--accent); font-weight: 600; margin-bottom: 0.9rem; display: block;
+  }
+  h1.name { font-size: clamp(2.1rem, 5.4vw, 3.1rem); font-weight: 700; letter-spacing: -0.015em; text-wrap: balance; margin: 0 0 0.5rem; line-height: 1.15; }
+  .role { font-size: clamp(1rem, 2vw, 1.15rem); color: var(--muted); max-width: 52ch; margin: 0 0 1.6rem; }
+  .thesis { font-size: 1.02rem; max-width: 60ch; margin: 0 0 2rem; }
+  .thesis strong { color: var(--accent); font-weight: 600; }
+
+  .stat-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(10.5rem, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 2.1rem; }
+  .stat { background: var(--surface); padding: 1rem 1.1rem; }
+  .stat-num { font-family: ui-monospace, "SF Mono", "Cascadia Code", Consolas, monospace; font-size: 1.5rem; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; }
+  .stat-label { font-size: 0.76rem; color: var(--muted); margin-top: 0.2rem; }
+
+  .cta-row { display: flex; gap: 0.7rem; flex-wrap: wrap; }
+  .btn { font-size: 0.86rem; padding: 0.55rem 1.05rem; border-radius: 7px; text-decoration: none; font-weight: 600; transition: transform .15s, box-shadow .15s; display: inline-block; }
+  .btn-primary { background: var(--accent); color: var(--bg); }
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: var(--shadow); }
+  .btn-ghost { border: 1px solid var(--border); color: var(--ink); }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ---------- Section shell ---------- */
+  section { padding: 3.4rem 0; }
+  section.alt { background: var(--surface-2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .section-head { margin-bottom: 2rem; }
+  h2.section-title { font-size: clamp(1.4rem, 3vw, 1.85rem); font-weight: 700; letter-spacing: -0.01em; margin: 0 0 0.4rem; text-wrap: balance; }
+  .section-sub { color: var(--muted); max-width: 62ch; margin: 0; font-size: 0.95rem; }
+
+  /* ---------- Feature case (destaque) ---------- */
+  .feature {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    box-shadow: var(--shadow); padding: 1.6rem; display: grid; gap: 1.6rem;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); margin-bottom: 1.4rem;
+  }
+  .feature + .feature { margin-top: 0; }
+  .feature-kicker { font-family: ui-monospace, "SF Mono", Consolas, monospace; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.4rem; }
+  .feature h3 { font-size: 1.3rem; margin: 0 0 0.5rem; letter-spacing: -0.01em; }
+  .feature p.lead { margin: 0 0 1rem; color: var(--muted); font-size: 0.95rem; }
+  .feature-side { display: flex; flex-direction: column; gap: 1rem; min-width: 0; }
+
+  .card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    padding: 1.35rem; display: flex; flex-direction: column; gap: 0.95rem;
+    box-shadow: var(--shadow);
+  }
+  html.js .card.visible, html.js .feature.visible { opacity: 1; transform: none; }
+  html.js .card, html.js .feature, html.js .case { opacity: 0; transform: translateY(12px); transition: opacity .5s ease, transform .5s ease; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr)); gap: 1.4rem; }
+
+  .card-title { font-size: 1.08rem; font-weight: 700; letter-spacing: -0.005em; }
+  .card-thesis { font-size: 0.9rem; color: var(--muted); margin-top: 0.25rem; }
+
+  .badges { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .badge { font-family: ui-monospace, "SF Mono", "Cascadia Code", Consolas, monospace; font-size: 0.7rem; padding: 0.2rem 0.5rem; border: 1px solid var(--border); border-radius: 5px; color: var(--ink); }
+
+  ul.bullets { margin: 0; padding-left: 1.05rem; font-size: 0.88rem; display: flex; flex-direction: column; gap: 0.4rem; }
+  ul.bullets li::marker { color: var(--accent); }
+
+  .metric-compare { display: flex; flex-direction: column; gap: 0.5rem; }
+  .metric-row { display: grid; grid-template-columns: 6.2rem 1fr auto; align-items: center; gap: 0.6rem; font-size: 0.8rem; }
+  .metric-tag { font-weight: 700; font-size: 0.68rem; letter-spacing: 0.05em; padding: 0.15rem 0.45rem; border-radius: 4px; text-align: center; }
+  .metric-tag.good { background: var(--good-soft); color: var(--good); }
+  .metric-tag.warn { background: var(--warn-soft); color: var(--warn); }
+  .metric-bar { height: 7px; border-radius: 4px; background: var(--border); overflow: hidden; }
+  .metric-bar > i { display: block; height: 100%; border-radius: 4px; }
+  .metric-bar > i.good { background: var(--good); width: 25%; }
+  .metric-bar > i.warn { background: var(--warn); width: 68%; }
+  .metric-val { font-family: ui-monospace, "SF Mono", Consolas, monospace; font-size: 0.78rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+  .code-peek {
+    background: var(--surface-2); border: 1px solid var(--border); border-radius: 8px;
+    padding: 0.75rem 0.9rem; font-family: ui-monospace, "SF Mono", "Cascadia Code", Consolas, monospace;
+    font-size: 0.74rem; line-height: 1.6; overflow-x: auto; color: var(--ink); white-space: pre; margin: 0;
+  }
+  .code-peek .c1 { color: var(--accent); }
+  .code-peek .c2 { color: var(--muted); }
+  .code-peek .c3 { color: var(--good); }
+  .code-peek .c4 { color: var(--warn); }
+
+  /* mini stats inside feature */
+  .mini-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; }
+  .mini { background: var(--surface-2); border: 1px solid var(--border); border-radius: 8px; padding: 0.65rem 0.75rem; }
+  .mini b { display: block; font-family: ui-monospace, "SF Mono", Consolas, monospace; font-size: 1.15rem; color: var(--accent); font-variant-numeric: tabular-nums; }
+  .mini span { font-size: 0.72rem; color: var(--muted); line-height: 1.35; display: block; }
+
+  /* evolution steps */
+  .steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0; }
+  .steps li { display: grid; grid-template-columns: 1.4rem 1fr; gap: 0.7rem; position: relative; padding-bottom: 0.85rem; font-size: 0.86rem; }
+  .steps li:last-child { padding-bottom: 0; }
+  .steps li::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: var(--accent); margin: 0.45rem 0 0 0.3rem; }
+  .steps li::after { content: ""; position: absolute; left: calc(0.3rem + 4px); top: 1.1rem; bottom: 0; width: 1px; background: var(--border); }
+  .steps li:last-child::after { display: none; }
+  .steps b { font-weight: 650; }
+  .steps .s-meta { display: block; color: var(--muted); font-size: 0.8rem; }
+
+  /* orchestrator tree */
+  .tree { font-family: ui-monospace, "SF Mono", Consolas, monospace; font-size: 0.76rem; line-height: 1.7; background: var(--surface-2); border: 1px solid var(--border); border-radius: 8px; padding: 0.8rem 0.95rem; margin: 0; white-space: pre; overflow-x: auto; }
+  .tree .d { color: var(--accent); font-weight: 600; }
+  .tree .n { color: var(--muted); }
+
+  .links { display: flex; gap: 1rem; flex-wrap: wrap; font-size: 0.84rem; font-weight: 600; }
+  .links a { color: var(--accent); text-decoration: none; border-bottom: 1px solid transparent; }
+  .links a:hover { border-color: var(--accent); }
+
+  /* ---------- Debug cases ---------- */
+  .case { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.3rem; display: flex; flex-direction: column; gap: 0.8rem; box-shadow: var(--shadow); }
+  html.js .case.visible { opacity: 1; transform: none; }
+  .case h3 { font-size: 1rem; margin: 0; letter-spacing: -0.005em; }
+  .case dl { margin: 0; display: grid; grid-template-columns: 5.6rem 1fr; gap: 0.45rem 0.7rem; font-size: 0.85rem; }
+  .case dt { font-family: ui-monospace, "SF Mono", Consolas, monospace; font-size: 0.68rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); padding-top: 0.2rem; }
+  .case dd { margin: 0; }
+  .case dt.rule { color: var(--good); }
+
+  /* ---------- Principles ---------- */
+  .principles { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+  .principle { background: var(--surface); padding: 1.25rem; }
+  .principle .num { font-family: ui-monospace, "SF Mono", Consolas, monospace; color: var(--accent); font-size: 0.75rem; font-weight: 700; }
+  .principle h3 { font-size: 0.98rem; margin: 0.35rem 0 0.4rem; }
+  .principle p { margin: 0; font-size: 0.86rem; color: var(--muted); }
+
+  /* ---------- Stack ---------- */
+  .stack { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 1.4rem 2rem; }
+  .stack h3 { font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin: 0 0 0.6rem; font-weight: 600; }
+
+  /* ---------- Experience ---------- */
+  .timeline { display: flex; flex-direction: column; gap: 1.1rem; }
+  .tl-item { display: grid; grid-template-columns: 8.5rem 1fr; gap: 1rem; padding-bottom: 1.1rem; border-bottom: 1px solid var(--border); }
+  .tl-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .tl-date { font-family: ui-monospace, "SF Mono", Consolas, monospace; font-size: 0.76rem; color: var(--muted); white-space: nowrap; padding-top: 0.15rem; }
+  .tl-role { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.2rem; }
+  .tl-org { color: var(--muted); font-size: 0.86rem; margin-bottom: 0.4rem; }
+  .tl-desc { font-size: 0.88rem; }
+  .tl-desc ul { margin: 0.3rem 0 0; padding-left: 1.05rem; display: flex; flex-direction: column; gap: 0.25rem; }
+  .tl-desc li::marker { color: var(--accent); }
+
+  /* ---------- Footer ---------- */
+  footer.contact { padding: 3.5rem 0 3rem; text-align: center; }
+  footer.contact h2 { font-size: clamp(1.3rem, 2.6vw, 1.7rem); margin: 0 0 0.6rem; }
+  footer.contact p { color: var(--muted); font-size: 0.92rem; margin: 0 0 1.6rem; }
+  .foot-links { display: flex; justify-content: center; gap: 0.7rem; flex-wrap: wrap; margin-bottom: 2rem; }
+  .fine { color: var(--muted); font-size: 0.76rem; }
+
+  @media (max-width: 860px) {
+    .feature { grid-template-columns: 1fr; padding: 1.25rem; }
+  }
+  @media (max-width: 640px) {
+    .wrap { padding: 0 1rem; }
+    header.hero { padding: 3rem 0 2.2rem; }
+    .navlinks { gap: 0.9rem; }
+    .mark { display: none; }
+    nav.top .wrap { justify-content: flex-end; }
+    .nav-right { width: 100%; justify-content: space-between; }
+    .tl-item { grid-template-columns: 1fr; gap: 0.3rem; }
+    .metric-row { grid-template-columns: 5.2rem 1fr; }
+    .metric-row .metric-val { grid-column: 1 / -1; white-space: normal; }
+    .mini-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .case dl { grid-template-columns: 1fr; gap: 0.1rem; }
+    .case dd { margin-bottom: 0.45rem; }
+    .grid { grid-template-columns: 1fr; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    html.js .card, html.js .feature, html.js .case { opacity: 1; transform: none; transition: none; }
+  }
+  @media print {
+    nav.top, .theme-btn, .cta-row { display: none; }
+    .card, .feature, .case, html.js .card, html.js .feature, html.js .case { opacity: 1; transform: none; box-shadow: none; break-inside: avoid; }
+    section.alt { background: none; }
+  }
+</style>
+</head>
+<body>
+
+<a class="skip" href="#conteudo">Pular para o conteúdo</a>
+
+<nav class="top" aria-label="Navegação principal">
+  <div class="wrap">
+    <div class="mark">Carlos Douglas<span class="dot">.</span>dev</div>
+    <div class="nav-right">
+      <div class="navlinks">
+        <a href="#trabalho">Trabalho</a>
+        <a href="#casos">Casos</a>
+        <a href="#projetos">Projetos</a>
+        <a href="#stack">Stack</a>
+        <a href="#experiencia">Experiência</a>
+        <a href="#contato">Contato</a>
+      </div>
+      <button class="theme-btn" type="button" id="themeBtn" aria-label="Alternar tema claro/escuro">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<main id="conteudo">
+
+<header class="hero">
+  <div class="wrap">
+    <span class="eyebrow">Portfólio técnico</span>
+    <h1 class="name">Carlos Douglas Santos da Silva</h1>
+    <p class="role">Desenvolvedor Front-end (React Native / TypeScript) · ex-QA · Arquitetura modular &amp; engenharia assistida por IA</p>
+    <p class="thesis">
+      Construo as coisas que eu testaria. Vim de QA e de análise de sistemas, e isso aparece no
+      jeito como escrevo código: <strong>cada decisão registrada, cada bug real convertido em regra</strong>,
+      e testes antes de dizer que algo está pronto. Hoje desenvolvo módulos de um app de logística
+      em uma arquitetura de micro-frontends mobile.
+    </p>
+
+    <div class="stat-strip">
+      <div class="stat"><div class="stat-num">~180</div><div class="stat-label">commits em 13 repositórios desde jun/2026</div></div>
+      <div class="stat"><div class="stat-num">94</div><div class="stat-label">decisões técnicas documentadas (com alternativas)</div></div>
+      <div class="stat"><div class="stat-num">250+</div><div class="stat-label">testes unitários nos módulos de NF-e</div></div>
+      <div class="stat"><div class="stat-num">42</div><div class="stat-label">bugs reportados proativamente como QA</div></div>
+    </div>
+
+    <div class="cta-row">
+      <a class="btn btn-primary" href="mailto:carlosdoouglas@gmail.com">Enviar e-mail</a>
+      <a class="btn btn-ghost" href="https://www.linkedin.com/in/douglas-silva-160b95231" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="btn btn-ghost" href="https://github.com/DouglasDMX" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </div>
+</header>
+
+<!-- ================= TRABALHO ================= -->
+<section class="alt" id="trabalho">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Trabalho em produção</span>
+      <h2 class="section-title">App de logística — micro-frontends mobile</h2>
+      <p class="section-sub">App Android de operação logística, com um host que carrega módulos de negócio
+        independentes via Module Federation. O código é proprietário, então descrevo o que fiz e como fiz,
+        sem expor detalhes internos. Os três trabalhos abaixo são meus, do primeiro commit ao merge.</p>
+    </div>
+
+    <article class="feature">
+      <div>
+        <div class="feature-kicker">Feature · 2 módulos remotos · jul → out/2026</div>
+        <h3>Impressão &amp; Validação de NF-e</h3>
+        <p class="lead">Dois módulos que eu criei e mantenho: o operador bipa um protocolo, uma guia ou uma doca,
+          imprime as notas fiscais do lote e depois valida cada nota bipando a chave de acesso.</p>
+        <ul class="bullets">
+          <li>Arquitetura VIPER flat (entity · interactor · presenter · view · router · store · service), com o interactor retornando <span class="mono">Result&lt;T&gt;</span> em vez de lançar exceção para fluxo esperado.</li>
+          <li>Migração dos dois módulos para o envelope <span class="mono">Result&lt;T&gt;</span> do backend .NET, decidindo o fluxo pelo <em>código</em> do erro (bloqueio de negócio vira aviso; falha HTTP vira erro).</li>
+          <li>Entrada por doca com lista de lotes, identificação de redespacho e cache de “validado” por lote; trava contra bipe duplicado enquanto a requisição está em andamento.</li>
+          <li>Leitura de códigos de barras centralizada em um parser compartilhado entre os módulos, com contribuição própria no pacote.</li>
+          <li>Contrato de API negociado com o time de back antes da integração, com mock local atrás de flag para não ficar bloqueado.</li>
+        </ul>
+      </div>
+      <div class="feature-side">
+        <div class="mini-stats">
+          <div class="mini"><b>2</b><span>módulos criados do zero</span></div>
+          <div class="mini"><b>131</b><span>testes no validador</span></div>
+          <div class="mini"><b>124</b><span>testes na impressão</span></div>
+        </div>
+        <ol class="steps" aria-label="Evolução dos módulos">
+          <li><div><b>Impressão por protocolo</b><span class="s-meta">módulo novo · 39 decisões registradas</span></div></li>
+          <li><div><b>Validador de notas impressas</b><span class="s-meta">bipe de chave de acesso · 23 decisões</span></div></li>
+          <li><div><b>Header de auditoria nos endpoints</b><span class="s-meta">correção de contrato header × body</span></div></li>
+          <li><div><b>Bipe de doca + bloqueio por status</b><span class="s-meta">lista de lotes, redespacho, Result&lt;T&gt;</span></div></li>
+          <li><div><b>Nova guia de conferência</b><span class="s-meta">guia antiga eliminada, leitura via parser compartilhado</span></div></li>
+        </ol>
+        <pre class="code-peek"><span class="c2">// interactor: fluxo esperado não lança exceção</span>
+<span class="c1">if</span> (!res.succeeded) {
+  <span class="c1">return</span> isBusinessBlock(res.errors[0])
+    ? fail(<span class="c1">new</span> ValidationBlockedError(msg)) <span class="c2">// aviso</span>
+    : fail(<span class="c1">new</span> RequestError(msg));        <span class="c2">// erro</span>
+}
+<span class="c1">return</span> ok(res.data);</pre>
+        <div class="badges">
+          <span class="badge">React Native</span><span class="badge">TypeScript</span><span class="badge">Zod</span>
+          <span class="badge">Zustand</span><span class="badge">TanStack Query</span><span class="badge">Jest / RNTL</span>
+          <span class="badge">Module Federation</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="feature">
+      <div>
+        <div class="feature-kicker">Ferramenta interna · usada pelo time · ago/2026 → atual</div>
+        <h3>Orquestrador de contexto para agentes de IA</h3>
+        <p class="lead">Toda sessão nova de IA num módulo começava do zero: sem a arquitetura, sem os padrões
+          que já tinham causado bug, sem saber que o problema já tinha sido resolvido em outro módulo.
+          Projetei um repositório que resolve isso com uma linha de configuração.</p>
+        <ul class="bullets">
+          <li>Um único <span class="mono">CLAUDE.md</span> importado via <span class="mono">@import</span> por qualquer módulo: um <span class="mono">git pull</span> atualiza o contexto de todos os consumidores, sem cópia.</li>
+          <li><b>14 seções de padrões</b>, cada uma com o bug real que a violação causou, e uma tabela de regras absolutas que o agente <em>recusa</em> violar, explicando o porquê e oferecendo o caminho correto.</li>
+          <li><b>14 skills</b>: roteador, fluxo completo (análise → desenvolvimento → testes → revisão) e uma skill por camada VIPER.</li>
+          <li>Log de decisões por atividade (Decisão → Por quê → Alternativa): 7 atividades, 94 decisões. Decisões pontuais viram regra geral com o tempo.</li>
+          <li>Onboarding de perfil pessoal que vive fora do repositório (preferências de um dev nunca vazam para outro) e governança de merge com aprovadores definidos.</li>
+          <li>Checklist “antes de confiar”: conferir tag publicada, branch e dependência antes de afirmar que algo está no ar.</li>
+        </ul>
+      </div>
+      <div class="feature-side">
+        <pre class="tree"><span class="d">orquestrador/</span>
+├── CLAUDE.md          <span class="n"># roteamento + regras absolutas</span>
+├── <span class="d">patterns/</span>          <span class="n"># padrões validados por bug real</span>
+├── <span class="d">architecture/</span>      <span class="n"># mapa dos repositórios e ambientes</span>
+├── <span class="d">guides/</span>            <span class="n"># host, shell, CI, ambiente local</span>
+├── <span class="d">modules/</span>           <span class="n"># status de revisão por módulo</span>
+├── <span class="d">decisions/</span>         <span class="n"># 7 atividades · 94 decisões</span>
+└── <span class="d">.claude/commands/</span>  <span class="n"># 14 skills</span></pre>
+        <div class="mini-stats">
+          <div class="mini"><b>14</b><span>seções de padrões</span></div>
+          <div class="mini"><b>14</b><span>skills customizadas</span></div>
+          <div class="mini"><b>~5k</b><span>linhas de documentação</span></div>
+        </div>
+        <div class="badges">
+          <span class="badge">Claude Code</span><span class="badge">MCP</span><span class="badge">Markdown</span><span class="badge">GitLab</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="feature">
+      <div>
+        <div class="feature-kicker">POC aprovada · ainda como QA · mai → jul/2026</div>
+        <h3>Registro de Ocorrências — full-stack</h3>
+        <p class="lead">A feature que implementei sozinho de ponta a ponta, backend e mobile, como prova de conceito.
+          A aprovação dela foi o que oficializou minha transição de QA para desenvolvimento.</p>
+        <ul class="bullets">
+          <li>Backend .NET 9 em CQRS: commands, queries, handlers, validators (FluentValidation) e repositório em Oracle, com testes xUnit.</li>
+          <li>Segurança no backend: parâmetros tipados (sem interpolação de SQL) e tratamento estruturado de exceções.</li>
+          <li>Mobile: fila offline com sincronização automática e persistência em MMKV, integrada ao app.</li>
+        </ul>
+      </div>
+      <div class="feature-side">
+        <pre class="code-peek"><span class="c2">// fluxo de criação</span>
+Controller
+  └─ <span class="c1">CreateOccurrenceCommand</span>
+       ├─ Validator   <span class="c2">(FluentValidation)</span>
+       └─ Handler → Repository → <span class="c3">Oracle</span>
+
+<span class="c2">// mobile</span>
+ação offline → <span class="c1">fila MMKV</span> → sync ao reconectar</pre>
+        <div class="badges">
+          <span class="badge">.NET 9</span><span class="badge">CQRS / MediatR</span><span class="badge">EF Core</span>
+          <span class="badge">Oracle</span><span class="badge">xUnit</span><span class="badge">React Native</span><span class="badge">MMKV</span>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ================= CASOS ================= -->
+<section id="casos">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Depuração</span>
+      <h2 class="section-title">Bugs reais que viraram regra</h2>
+      <p class="section-sub">O olhar de QA continua: quando algo quebra, investigo até a causa, corrijo e
+        documento para que ninguém caia no mesmo problema.</p>
+    </div>
+    <div class="grid">
+      <article class="case">
+        <h3>Motor SQL que agregava linha a linha</h3>
+        <dl>
+          <dt>Sintoma</dt><dd>No Professor SQL, <span class="mono">SELECT AVG(salario), MAX(salario) FROM funcionarios</span> devolvia 15 linhas iguais e deixava um desafio impossível de concluir.</dd>
+          <dt>Causa</dt><dd>O motor original interpretava SQL com expressões regulares. Sem árvore sintática, agregação sem <span class="mono">GROUP BY</span> era calculada por linha.</dd>
+          <dt>Correção</dt><dd>Motor reescrito com tokenizer e parser descendente recursivo; agregação sem grupo vira um grupo único.</dd>
+          <dt class="rule">Regra</dt><dd>Cada desafio ganhou uma solução de referência testada: 161 testes no total.</dd>
+        </dl>
+      </article>
+      <article class="case">
+        <h3>Singleton que deixava de ser singleton</h3>
+        <dl>
+          <dt>Achado</dt><dd>Em uma auditoria de módulo contra os padrões, a biblioteca compartilhada estava como <span class="mono">eager: true</span>, herdada do commit de scaffold.</dd>
+          <dt>Risco</dt><dd>O módulo resolve a própria cópia antes da negociação do Module Federation. Os Providers do shell deixam de ser os mesmos, e <span class="mono">useAuth()</span> pode voltar <span class="mono">null</span> sem nenhum erro de build.</dd>
+          <dt>Correção</dt><dd><span class="mono">singleton: true, eager: false</span>, conferido nos outros 7 módulos com um script de varredura.</dd>
+          <dt class="rule">Regra</dt><dd>Virou regra absoluta no orquestrador e item do checklist de revisão.</dd>
+        </dl>
+      </article>
+      <article class="case">
+        <h3>Campo opcional que derrubava a tela</h3>
+        <dl>
+          <dt>Sintoma</dt><dd>O backend respondia certo (200, <span class="mono">succeeded: true</span>), mas o app mostrava um diálogo de erro genérico.</dd>
+          <dt>Causa</dt><dd>O .NET serializa campo ausente como <span class="mono">null</span> explícito, e o schema Zod do envelope usava <span class="mono">.optional()</span>. O parse falhava antes de o presenter olhar a resposta.</dd>
+          <dt>Correção</dt><dd><span class="mono">.nullish()</span> nos campos do envelope e <span class="mono">.parse()</span> sempre dentro do try/catch da chamada, para nunca vazar erro técnico ao operador.</dd>
+          <dt class="rule">Regra</dt><dd>Duas regras novas nos padrões do time, aplicadas a todos os módulos.</dd>
+        </dl>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PROJETOS ================= -->
+<section class="alt" id="projetos">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Outros projetos</span>
+      <h2 class="section-title">Ferramentas que eu construí</h2>
+      <p class="section-sub">Projetos de QA, capacitação e infraestrutura, dentro e fora do trabalho atual. Em cada um há uma decisão técnica concreta.</p>
+    </div>
+
+    <div class="grid">
+      <article class="card">
+        <div>
+          <div class="card-title">Testes de carga — API de cálculo de frete</div>
+          <div class="card-thesis">Planejei e executei os testes que identificaram o limite saudável e o ponto de ruptura de uma API de frete sob carga, com resultados usados em decisões de infraestrutura.</div>
+        </div>
+        <div class="metric-compare" aria-label="Fases do teste">
+          <div class="metric-row"><span class="metric-tag good">warmup</span><div class="metric-bar"><i class="good"></i></div><span class="metric-val">aquecimento</span></div>
+          <div class="metric-row"><span class="metric-tag good">sustained</span><div class="metric-bar"><i class="good" style="width:55%"></i></div><span class="metric-val">carga constante</span></div>
+          <div class="metric-row"><span class="metric-tag warn">spike</span><div class="metric-bar"><i class="warn" style="width:100%"></i></div><span class="metric-val">pico até a ruptura</span></div>
+        </div>
+        <ul class="bullets">
+          <li>Cenários de warmup, sustained e spike, parametrizados por tipo e tamanho de carrinho.</li>
+          <li>Métricas customizadas: <span class="mono">http_5xx_errors</span>, <span class="mono">request_timeouts</span>, <span class="mono">cache_hit_rate</span>.</li>
+          <li>Execução local e remota (EC2) com dashboards Grafana em tempo real.</li>
+        </ul>
+        <div class="badges">
+          <span class="badge">k6</span><span class="badge">Prometheus</span><span class="badge">Grafana</span><span class="badge">Docker Compose</span><span class="badge">AWS EC2</span>
+        </div>
+      </article>
+
+      <article class="card">
+        <div>
+          <div class="card-title">Professor SQL &amp; Professor K6</div>
+          <div class="card-thesis">Plataformas de capacitação para o time. Criei o Professor SQL, que roda sobre um interpretador escrito do zero, sem banco real, e apoiei a criação do Professor K6.</div>
+        </div>
+        <pre class="code-peek"><span class="c2">-- avaliado pelo motor próprio (sem SQLite/ANTLR)</span>
+<span class="c1">SELECT</span> nome, salario <span class="c1">FROM</span> funcionarios
+<span class="c1">WHERE</span> salario <span class="c1">BETWEEN</span> 3000 <span class="c1">AND</span> 6000</pre>
+        <ul class="bullets">
+          <li>Tokenizer e parser descendente recursivo próprios: JOINs (inclusive LEFT/RIGHT/FULL), subqueries correlacionadas, CASE WHEN, views, procedures e transações.</li>
+          <li>56 desafios gamificados com dicas progressivas, cada um coberto por uma solução de referência testada (161 testes).</li>
+          <li>Professor K6: currículo de performance com VUs, checks, setup/teardown, ramp-up e testes data-driven.</li>
+        </ul>
+        <div class="badges">
+          <span class="badge">React</span><span class="badge">Vite</span><span class="badge">Vitest</span><span class="badge">JavaScript</span>
+        </div>
+        <div class="links">
+          <a href="https://douglasdmx.github.io/professor-sql/" target="_blank" rel="noopener">Abrir o Professor SQL ↗</a>
+          <a href="https://github.com/DouglasDMX/professor-sql" target="_blank" rel="noopener">Código-fonte ↗</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <div>
+          <div class="card-title">Inventário de TI criptografado</div>
+          <div class="card-thesis">Sistema de inventário sem servidor e sem framework, com criptografia no navegador, criado para o laboratório onde eu liderava a equipe de sistemas.</div>
+        </div>
+        <ul class="bullets">
+          <li>Persistência 100% local via IndexedDB.</li>
+          <li>AES-256-GCM com chave derivada por PBKDF2 (250.000 iterações).</li>
+          <li>Recuperação por senha mestra com envelope encryption da chave de dados, no mesmo modelo de BitLocker e FileVault.</li>
+        </ul>
+        <div class="badges">
+          <span class="badge">JavaScript</span><span class="badge">IndexedDB</span><span class="badge">Web Crypto API</span>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= COMO TRABALHO ================= -->
+<section id="como">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Método</span>
+      <h2 class="section-title">Como eu trabalho</h2>
+    </div>
+    <div class="principles">
+      <div class="principle"><span class="num">01</span><h3>Decisão tem registro</h3><p>Se o diff não explica o porquê, a decisão vai para um log com a alternativa descartada. Quem chegar depois entende o raciocínio.</p></div>
+      <div class="principle"><span class="num">02</span><h3>Contrato antes de código</h3><p>Combino o formato da API com o back antes de integrar e trabalho com mock atrás de flag enquanto ele não sobe.</p></div>
+      <div class="principle"><span class="num">03</span><h3>Verificar antes de afirmar</h3><p>Antes de dizer que algo está publicado, confiro tag, commit e ambiente. Herança direta de QA.</p></div>
+      <div class="principle"><span class="num">04</span><h3>IA com guarda-corpos</h3><p>Uso agentes de IA no dia a dia, presos a regras explícitas, revisão humana e testes. A IA acelera o trabalho, e a responsabilidade pelo resultado continua minha.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= STACK ================= -->
+<section class="alt" id="stack">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Stack</span>
+      <h2 class="section-title">Ferramentas do dia a dia</h2>
+    </div>
+    <div class="stack">
+      <div><h3>Front-end / Mobile</h3><div class="badges">
+        <span class="badge">React Native</span><span class="badge">TypeScript</span><span class="badge">React 19</span><span class="badge">Re.Pack / Rspack</span><span class="badge">Module Federation</span><span class="badge">React Navigation</span><span class="badge">Zustand</span><span class="badge">TanStack Query</span><span class="badge">Zod</span><span class="badge">styled-components</span><span class="badge">MMKV</span>
+      </div></div>
+      <div><h3>Back-end / Dados</h3><div class="badges">
+        <span class="badge">.NET 9</span><span class="badge">CQRS / MediatR</span><span class="badge">EF Core</span><span class="badge">FluentValidation</span><span class="badge">Node.js / Express</span><span class="badge">Oracle</span><span class="badge">PostgreSQL</span>
+      </div></div>
+      <div><h3>Qualidade / Testes</h3><div class="badges">
+        <span class="badge">Jest</span><span class="badge">Testing Library</span><span class="badge">xUnit</span><span class="badge">Cypress</span><span class="badge">Selenium</span><span class="badge">Postman</span><span class="badge">k6</span><span class="badge">BDD / Gherkin</span>
+      </div></div>
+      <div><h3>Infra / Fluxo</h3><div class="badges">
+        <span class="badge">GitLab CI</span><span class="badge">Docker</span><span class="badge">Prometheus</span><span class="badge">Grafana</span><span class="badge">AWS EC2</span><span class="badge">Jira</span><span class="badge">Claude Code / MCP</span>
+      </div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= EXPERIÊNCIA ================= -->
+<section id="experiencia">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Experiência</span>
+      <h2 class="section-title">Onde isso foi construído</h2>
+      <p class="section-sub">Versão resumida. O currículo completo tem métricas e conquistas de cada etapa.</p>
+    </div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-date">jun/2026 — atual</div>
+        <div>
+          <div class="tl-role">Desenvolvedor Front-end</div>
+          <div class="tl-org">FCx Labs · app de logística</div>
+          <div class="tl-desc">
+            <ul>
+              <li>Criação e manutenção dos módulos remotos de impressão e validação de NF-e (React Native + Module Federation).</li>
+              <li>Correções em módulos de conferência de coleta e alinhamento de diálogos ao design system.</li>
+              <li>Contribuições ao pacote compartilhado e às aplicações base do app.</li>
+              <li>Autor do orquestrador de contexto de IA usado pelo time de front.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">nov/2025 — jun/2026</div>
+        <div>
+          <div class="tl-role">Analista de QA</div>
+          <div class="tl-org">FCx Labs</div>
+          <div class="tl-desc">Testes funcionais, de regressão e de carga; automação com Cypress, Selenium, Postman e Python em CI/CD; 230+ demandas conduzidas e 42 bugs reportados proativamente. A POC full-stack de Registro de Ocorrências, aprovada, abriu a transição para dev.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">set/2023 — nov/2025</div>
+        <div>
+          <div class="tl-role">Analista de Sistemas Pleno (liderança)</div>
+          <div class="tl-org">Laboratório Nabuco Lopes</div>
+          <div class="tl-desc">Destaque do Ano; identificação e contenção de uma invasão de sistema; automação de processos (RPA) e administração de redes.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">previsão 2027</div>
+        <div>
+          <div class="tl-role">Análise e Desenvolvimento de Sistemas</div>
+          <div class="tl-org">Graduação tecnológica (em curso)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="contact" id="contato">
+  <div class="wrap">
+    <h2>Vamos conversar</h2>
+    <p>Aberto a oportunidades em desenvolvimento front-end/mobile e qualidade de software.</p>
+    <div class="foot-links">
+      <a class="btn btn-primary" href="mailto:carlosdoouglas@gmail.com">carlosdoouglas@gmail.com</a>
+      <a class="btn btn-ghost" href="https://www.linkedin.com/in/douglas-silva-160b95231" target="_blank" rel="noopener">linkedin.com/in/douglas-silva-160b95231</a>
+      <a class="btn btn-ghost" href="https://github.com/DouglasDMX" target="_blank" rel="noopener">github.com/DouglasDMX</a>
+    </div>
+    <p class="fine">Recife, PE · última atualização em outubro de 2026</p>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var root = document.documentElement;
+    root.classList.add('js');
+    try { var saved = localStorage.getItem('theme'); if (saved) root.setAttribute('data-theme', saved); } catch (e) {}
+    document.getElementById('themeBtn').addEventListener('click', function () {
+      var current = root.getAttribute('data-theme') ||
+        (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      var next = current === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      try { localStorage.setItem('theme', next); } catch (e) {}
+    });
+
+    var items = document.querySelectorAll('.card, .feature, .case');
+    if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+      }, { threshold: 0.08 });
+      items.forEach(function (c) { io.observe(c); });
+    } else {
+      items.forEach(function (c) { c.classList.add('visible'); });
+    }
+  })();
+</script>
+</body>
+</html>
