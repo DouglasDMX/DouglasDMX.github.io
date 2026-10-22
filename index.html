@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Portfólio de Carlos Douglas — desenvolvedor front-end (React Native / TypeScript) vindo de QA, com foco em arquitetura modular, testes e engenharia assistida por IA.">
+<meta name="description" content="Portfólio de Carlos Douglas — desenvolvedor full-stack (React Native / TypeScript e .NET / C#, Oracle e PostgreSQL) vindo de QA, com foco em arquitetura, testes e engenharia assistida por IA.">
 <title>Carlos Douglas — Portfólio</title>
 <style>
   :root {
@@ -275,12 +275,12 @@
   <div class="wrap">
     <span class="eyebrow">Portfólio técnico</span>
     <h1 class="name">Carlos Douglas Santos da Silva</h1>
-    <p class="role">Desenvolvedor Front-end (React Native / TypeScript) · ex-QA · Arquitetura modular &amp; engenharia assistida por IA</p>
+    <p class="role">Desenvolvedor Full-stack · React Native / TypeScript · .NET / C# · APIs REST · Oracle &amp; PostgreSQL · ex-QA</p>
     <p class="thesis">
       Construo as coisas que eu testaria. Vim de QA e de análise de sistemas, e isso aparece no
       jeito como escrevo código: <strong>cada decisão registrada, cada bug real convertido em regra</strong>,
-      e testes antes de dizer que algo está pronto. Hoje desenvolvo módulos de um app de logística
-      em uma arquitetura de micro-frontends mobile.
+      e testes antes de dizer que algo está pronto. Hoje atuo como full-stack em um app de logística:
+      módulos mobile em React Native com micro-frontends e APIs em .NET/C# sobre Oracle.
     </p>
 
     <div class="stat-strip">
@@ -303,10 +303,10 @@
   <div class="wrap">
     <div class="section-head">
       <span class="eyebrow">Trabalho em produção</span>
-      <h2 class="section-title">App de logística — micro-frontends mobile</h2>
-      <p class="section-sub">App Android de operação logística, com um host que carrega módulos de negócio
-        independentes via Module Federation. O código é proprietário, então descrevo o que fiz e como fiz,
-        sem expor detalhes internos. Os três trabalhos abaixo são meus, do primeiro commit ao merge.</p>
+      <h2 class="section-title">App de logística — do mobile à API</h2>
+      <p class="section-sub">App Android de operação logística: um host que carrega módulos de negócio
+        independentes via Module Federation, consumindo APIs .NET sobre Oracle. O código é proprietário, então
+        descrevo o que fiz e como fiz, sem expor detalhes internos. Os trabalhos abaixo são meus, no front e no back.</p>
     </div>
 
     <article class="feature">
@@ -389,28 +389,63 @@
 
     <article class="feature">
       <div>
-        <div class="feature-kicker">POC aprovada · ainda como QA · mai → jul/2026</div>
-        <h3>Registro de Ocorrências — full-stack</h3>
-        <p class="lead">A feature que implementei sozinho de ponta a ponta, backend e mobile, como prova de conceito.
-          A aprovação dela foi o que oficializou minha transição de QA para desenvolvimento.</p>
+        <div class="feature-kicker">Back-end · .NET 9 / C# · mai/2026 → atual</div>
+        <h3>APIs REST em .NET — CQRS sobre Oracle</h3>
+        <p class="lead">Endpoints e features completas no back-end do app. A primeira delas, o Registro de Ocorrências,
+          foi uma prova de conceito full-stack feita ainda como QA. A aprovação dela oficializou minha transição para desenvolvimento.</p>
         <ul class="bullets">
-          <li>Backend .NET 9 em CQRS: commands, queries, handlers, validators (FluentValidation) e repositório em Oracle, com testes xUnit.</li>
-          <li>Segurança no backend: parâmetros tipados (sem interpolação de SQL) e tratamento estruturado de exceções.</li>
-          <li>Mobile: fila offline com sincronização automática e persistência em MMKV, integrada ao app.</li>
+          <li><b>Registro de Ocorrências, de ponta a ponta:</b> command e query com handlers MediatR, validators FluentValidation, mapeamentos AutoMapper, controller versionado, repositório Oracle e testes xUnit dos handlers.</li>
+          <li>SQL sempre parametrizado (bind variables do Oracle, nunca interpolação), com tratamento estruturado de exceções no repositório e fuso horário explícito na gravação.</li>
+          <li>Endpoint de detalhes de produto por código de barras e ajustes na validação de endereço usada na conferência.</li>
+          <li>APIs REST versionadas (<span class="mono">/api/v1</span>), documentadas em OpenAPI/Swagger, com respostas padronizadas e erros de validação claros para quem consome.</li>
+          <li>No mobile da mesma feature: fila offline com sincronização automática e persistência em MMKV.</li>
+          <li>Nas features de NF-e, desenho do contrato de API junto com o time de back antes da integração, até o envelope <span class="mono">Result&lt;T&gt;</span> e os códigos de erro.</li>
         </ul>
       </div>
       <div class="feature-side">
-        <pre class="code-peek"><span class="c2">// fluxo de criação</span>
-Controller
-  └─ <span class="c1">CreateOccurrenceCommand</span>
+        <pre class="code-peek"><span class="c2">// fluxo de uma requisição</span>
+Controller <span class="c2">(v1)</span>
+  └─ <span class="c1">MediatR</span>.Send(<span class="c1">CreateOccurrenceCommand</span>)
        ├─ Validator   <span class="c2">(FluentValidation)</span>
-       └─ Handler → Repository → <span class="c3">Oracle</span>
+       └─ Handler → AutoMapper → Repository
+                                   └─ <span class="c3">Oracle</span> <span class="c2">(:bind)</span>
 
 <span class="c2">// mobile</span>
 ação offline → <span class="c1">fila MMKV</span> → sync ao reconectar</pre>
+        <div class="mini-stats">
+          <div class="mini"><b>28</b><span>commits no back-end</span></div>
+          <div class="mini"><b>2</b><span>fluxos CQRS completos</span></div>
+          <div class="mini"><b>xUnit</b><span>testes dos handlers</span></div>
+        </div>
         <div class="badges">
-          <span class="badge">.NET 9</span><span class="badge">CQRS / MediatR</span><span class="badge">EF Core</span>
-          <span class="badge">Oracle</span><span class="badge">xUnit</span><span class="badge">React Native</span><span class="badge">MMKV</span>
+          <span class="badge">C#</span><span class="badge">.NET 9</span><span class="badge">ASP.NET Core</span><span class="badge">CQRS / MediatR</span>
+          <span class="badge">FluentValidation</span><span class="badge">AutoMapper</span><span class="badge">EF Core</span><span class="badge">Oracle</span><span class="badge">xUnit</span>
+          <span class="badge">React Native</span><span class="badge">MMKV</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="feature">
+      <div>
+        <div class="feature-kicker">Dados · Oracle &amp; PostgreSQL</div>
+        <h3>SQL no dia a dia — do teste à produção</h3>
+        <p class="lead">Escrevo e valido SQL nos dois bancos: consultas de repositório no back-end, e evidência de
+          regra de negócio e de migração no trabalho de qualidade.</p>
+        <ul class="bullets">
+          <li>Validação da troca de uma consulta Oracle por PostgreSQL no cálculo de frete: 7 cenários de regressão em BDD (Gherkin), 100% aprovados, com as queries de evidência documentadas.</li>
+          <li>Queries Oracle para comprovar correções de regras de negócio (faixas de peso e frete) e para conferir dados de teste antes e depois de cada fluxo.</li>
+          <li>Repositórios .NET com SQL parametrizado, consultas com filtro por empresa e ordenação estável.</li>
+          <li>Fora do trabalho: um motor SQL escrito do zero para ensinar a linguagem, o <a href="https://douglasdmx.github.io/professor-sql/" target="_blank" rel="noopener">Professor SQL</a>.</li>
+        </ul>
+      </div>
+      <div class="feature-side">
+        <pre class="code-peek"><span class="c2">-- Oracle: sempre com bind variables</span>
+<span class="c1">SELECT</span> ... <span class="c1">FROM</span> registros
+ <span class="c1">WHERE</span> lote_id    = <span class="c3">:lote_id</span>
+   <span class="c1">AND</span> empresa_id = <span class="c3">:empresa_id</span>
+ <span class="c1">ORDER BY</span> criado_em <span class="c1">DESC</span>;</pre>
+        <div class="badges">
+          <span class="badge">Oracle</span><span class="badge">PostgreSQL</span><span class="badge">SQL</span><span class="badge">BDD / Gherkin</span>
         </div>
       </div>
     </article>
@@ -555,8 +590,14 @@ ação offline → <span class="c1">fila MMKV</span> → sync ao reconectar</pre
       <div><h3>Front-end / Mobile</h3><div class="badges">
         <span class="badge">React Native</span><span class="badge">TypeScript</span><span class="badge">React 19</span><span class="badge">Re.Pack / Rspack</span><span class="badge">Module Federation</span><span class="badge">React Navigation</span><span class="badge">Zustand</span><span class="badge">TanStack Query</span><span class="badge">Zod</span><span class="badge">styled-components</span><span class="badge">MMKV</span>
       </div></div>
-      <div><h3>Back-end / Dados</h3><div class="badges">
-        <span class="badge">.NET 9</span><span class="badge">CQRS / MediatR</span><span class="badge">EF Core</span><span class="badge">FluentValidation</span><span class="badge">Node.js / Express</span><span class="badge">Oracle</span><span class="badge">PostgreSQL</span>
+      <div><h3>Back-end</h3><div class="badges">
+        <span class="badge">C#</span><span class="badge">.NET 9</span><span class="badge">ASP.NET Core</span><span class="badge">CQRS / MediatR</span><span class="badge">FluentValidation</span><span class="badge">AutoMapper</span><span class="badge">EF Core</span><span class="badge">Clean Architecture</span><span class="badge">Node.js / Express</span>
+      </div></div>
+      <div><h3>APIs &amp; integração</h3><div class="badges">
+        <span class="badge">REST</span><span class="badge">Versionamento de API</span><span class="badge">OpenAPI / Swagger</span><span class="badge">Contratos de API</span><span class="badge">Postman</span><span class="badge">Axios</span><span class="badge">Zod (validação de contrato)</span><span class="badge">TanStack Query</span>
+      </div></div>
+      <div><h3>Bancos de dados</h3><div class="badges">
+        <span class="badge">Oracle</span><span class="badge">PostgreSQL</span><span class="badge">SQL</span><span class="badge">IndexedDB</span>
       </div></div>
       <div><h3>Qualidade / Testes</h3><div class="badges">
         <span class="badge">Jest</span><span class="badge">Testing Library</span><span class="badge">xUnit</span><span class="badge">Cypress</span><span class="badge">Selenium</span><span class="badge">Postman</span><span class="badge">k6</span><span class="badge">BDD / Gherkin</span>
@@ -580,11 +621,12 @@ ação offline → <span class="c1">fila MMKV</span> → sync ao reconectar</pre
       <div class="tl-item">
         <div class="tl-date">jun/2026 — atual</div>
         <div>
-          <div class="tl-role">Desenvolvedor Front-end</div>
+          <div class="tl-role">Desenvolvedor Full-stack</div>
           <div class="tl-org">FCx Labs · app de logística</div>
           <div class="tl-desc">
             <ul>
               <li>Criação e manutenção dos módulos remotos de impressão e validação de NF-e (React Native + Module Federation).</li>
+              <li>APIs REST no back-end .NET/C# (CQRS, MediatR, Oracle), com testes xUnit; desenho de contratos de API entre front e back.</li>
               <li>Correções em módulos de conferência de coleta e alinhamento de diálogos ao design system.</li>
               <li>Contribuições ao pacote compartilhado e às aplicações base do app.</li>
               <li>Autor do orquestrador de contexto de IA usado pelo time de front.</li>
@@ -624,7 +666,7 @@ ação offline → <span class="c1">fila MMKV</span> → sync ao reconectar</pre
 <footer class="contact" id="contato">
   <div class="wrap">
     <h2>Vamos conversar</h2>
-    <p>Aberto a oportunidades em desenvolvimento front-end/mobile e qualidade de software.</p>
+    <p>Aberto a oportunidades em desenvolvimento full-stack, mobile e qualidade de software.</p>
     <div class="foot-links">
       <a class="btn btn-primary" href="mailto:carlosdoouglas@gmail.com">carlosdoouglas@gmail.com</a>
       <a class="btn btn-ghost" href="https://www.linkedin.com/in/douglas-silva-160b95231" target="_blank" rel="noopener">linkedin.com/in/douglas-silva-160b95231</a>
